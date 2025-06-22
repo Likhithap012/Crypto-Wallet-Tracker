@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class WalletResponseDTO {
+    private long id;
     private String coin;
     private Double units;
     private Double buyPrice;

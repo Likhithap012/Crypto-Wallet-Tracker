@@ -47,7 +47,7 @@ public class WalletService {
     public Optional<WalletResponseDTO> updateEntry(Long id, WalletRequestDTO updatedDTO) {
         User user = getCurrentUser();
         return walletRepository.findById(id)
-                .filter(e -> e.getUser().getId().equals(user.getId()))
+                .filter(e -> e.getUser() != null && e.getUser().getId().equals(user.getId()))
                 .map(existing -> {
                     existing.setCoin(updatedDTO.getCoin());
                     existing.setUnits(updatedDTO.getUnits());

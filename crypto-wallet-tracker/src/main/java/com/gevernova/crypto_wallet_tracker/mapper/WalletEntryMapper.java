@@ -10,6 +10,7 @@ public class WalletEntryMapper {
 
     public WalletResponseDTO toResponseDTO(WalletEntry entity) {
         return WalletResponseDTO.builder()
+                .id(entity.getId())
                 .coin(entity.getCoin())
                 .units(entity.getUnits())
                 .buyPrice(entity.getBuyPrice())
