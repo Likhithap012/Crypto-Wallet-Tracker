@@ -7,10 +7,10 @@ import lombok.Data;
 // DTO for adding or updating a crypto entry in the user's wallet.
 
 @Data
-public class WalletRequest {
+public class WalletRequestDTO {
 
     @NotBlank(message = "Coin symbol is required")
-    private String coinSymbol;  // e.g., BTC, ETH
+    private String coin;  // e.g., BTC, ETH
 
     @Min(value = 0, message = "Units must be non-negative")
     private Double units;  // Number of units owned

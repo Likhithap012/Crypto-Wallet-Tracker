@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class PriceAlertResponse {
+public class PriceAlertResponseDTO {
     private String coinSymbol;
     private Double targetPrice;
     private Boolean isGreaterThan;

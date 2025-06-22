@@ -8,13 +8,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class WalletResponse {
-    private String coinSymbol;
+public class WalletResponseDTO {
+    private String coin;
     private Double units;
     private Double buyPrice;
-    private Double currentMarketPrice;
-    private Double currentValue;
-    private Double gainLoss;
-    private Double gainLossPercent;
-    private LocalDateTime addedOn;
 }

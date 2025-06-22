@@ -7,7 +7,7 @@ import lombok.Data;
 // DTO for creating a new price alert.
 
 @Data
-public class PriceAlertRequest {
+public class PriceAlertRequestDTO {
 
     @NotBlank(message = "Coin symbol is required")
     private String coinSymbol;  // e.g., BTC, ETH

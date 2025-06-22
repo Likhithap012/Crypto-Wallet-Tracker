@@ -1,14 +1,14 @@
 package com.gevernova.crypto_wallet_tracker.dto.response;
-// RegisterRequest
-// LoginRequest
-// Response DTOs = What the backend sends back to the client
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class AuthResponse {
+@NoArgsConstructor
+public class AuthResponseDTO {
     private String token;
+    private String name;
     private String role;
-    private String email;
 }

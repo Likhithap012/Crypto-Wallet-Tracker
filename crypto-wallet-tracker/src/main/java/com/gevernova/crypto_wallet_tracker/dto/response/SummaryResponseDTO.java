@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SummaryResponse {
+public class SummaryResponseDTO {
     private Double totalInvestment;
     private Double currentValue;
     private Double netGainLoss;
