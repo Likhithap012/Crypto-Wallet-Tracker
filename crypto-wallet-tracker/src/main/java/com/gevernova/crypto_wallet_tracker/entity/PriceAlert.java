@@ -32,3 +32,4 @@ public class PriceAlert {
 
     private LocalDateTime createdAt = LocalDateTime.now();  // Alert creation time
 }
+

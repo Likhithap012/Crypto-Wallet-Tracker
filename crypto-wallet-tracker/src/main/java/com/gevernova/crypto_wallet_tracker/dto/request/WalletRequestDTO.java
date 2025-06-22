@@ -2,11 +2,18 @@ package com.gevernova.crypto_wallet_tracker.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-
+/**
+ * DTO for adding or updating a crypto entry in the user's wallet.
+ */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WalletRequestDTO {
 
     @NotBlank(message = "Coin symbol is required")
