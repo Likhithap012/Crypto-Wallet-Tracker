@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,5 +32,14 @@ public class CoinPriceController {
     public ResponseEntity<String> fetchLatest() {
         coinPriceService.fetchAndSave();  // manually trigger fetch
         return ResponseEntity.ok("Manually fetched latest coin prices.");
+    }
+
+    @GetMapping("/fetch-all")
+    public ResponseEntity<List<CoinPriceResponseDTO>> getAllPrices() {
+        List<CoinPrice> prices = coinPriceService.getAllCoinPrices();
+        List<CoinPriceResponseDTO> response = prices.stream()
+                .map(mapper::makeCoinPriceResponseDTO)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 }
