@@ -63,4 +63,5 @@ public class AuthService {
 
         return new AuthResponseDTO(token, user.getName(), user.getRole().name());
     }
+
 }

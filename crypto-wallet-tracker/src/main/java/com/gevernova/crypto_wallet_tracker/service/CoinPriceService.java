@@ -1,13 +1,14 @@
 package com.gevernova.crypto_wallet_tracker.service;
 
+import com.gevernova.crypto_wallet_tracker.client.CoinGeckoClient;
 import com.gevernova.crypto_wallet_tracker.entity.CoinPrice;
 import com.gevernova.crypto_wallet_tracker.repository.CoinPriceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -16,7 +17,7 @@ import java.util.Map;
 public class CoinPriceService {
 
     private final CoinPriceRepository coinPriceRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final CoinGeckoClient coinGeckoClient;
 
     private final String[] coinIds = {
             "bitcoin", "ethereum", "cardano", "solana",
@@ -25,12 +26,9 @@ public class CoinPriceService {
     };
 
     public void fetchAndSave() {
-        log.info("Fetching crypto prices in INR...");
+        log.info("Fetching crypto prices in INR from client...");
 
-        String ids = String.join(",", coinIds);
-        String url = "https://api.coingecko.com/api/v3/simple/price?ids=" + ids + "&vs_currencies=inr";
-
-        Map<String, Map<String, Number>> response = restTemplate.getForObject(url, Map.class);
+        Map<String, Map<String, Number>> response = coinGeckoClient.getPricesInInr(coinIds);
 
         if (response != null) {
             for (String coinId : coinIds) {
@@ -63,7 +61,10 @@ public class CoinPriceService {
                 }
             }
         } else {
-            log.error("API response from CoinGecko is null");
+            log.error("Response from CoinGeckoClient is null");
         }
+    }
+    public List<CoinPrice> getAllCoinPrices() {
+        return coinPriceRepository.findAll();
     }
 }
