@@ -14,7 +14,7 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CoinPriceService {
+public class CoinPriceService implements ICoinPriceService {
 
     private final CoinPriceRepository coinPriceRepository;
     private final CoinGeckoClient coinGeckoClient;
