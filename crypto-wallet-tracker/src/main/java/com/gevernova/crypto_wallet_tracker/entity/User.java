@@ -3,6 +3,7 @@ package com.gevernova.crypto_wallet_tracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,23 +16,34 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // Unique user ID
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;  // User's full name
+    private String name;
 
     @Column(unique = true, nullable = false)
-    private String email;  // Must be unique
+    private String email;
 
-    @Column(nullable = false)
-    private String password;  // Encrypted password
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;  // USER or ADMIN
+    private Role role;
+
+    @Column(name = "is_verified")
+    private boolean verified = false;  //Required for email verification
+
+    @Column(name = "otp")
+    private String otp;  //Required for OTP login
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<WalletEntry> wallet;  // User's crypto holdings
+    private List<WalletEntry> wallet;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<PriceAlert> alerts;  // User's active price alerts
+    private List<PriceAlert> alerts;
+
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    @Column(name = "reset_token_expiry")
+    private LocalDateTime resetTokenExpiry;
 }
+
