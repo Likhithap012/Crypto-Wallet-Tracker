@@ -1,11 +1,12 @@
 package com.gevernova.crypto_wallet_tracker.service;
 
-import com.gevernova.crypto_wallet_tracker.client.CoinGeckoClient;
 import com.gevernova.crypto_wallet_tracker.entity.CoinPrice;
 import com.gevernova.crypto_wallet_tracker.repository.CoinPriceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,21 +15,25 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CoinPriceService implements ICoinPriceService {
+public class CoinPriceService implements ICoinPriceService{
 
     private final CoinPriceRepository coinPriceRepository;
-    private final CoinGeckoClient coinGeckoClient;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     private final String[] coinIds = {
             "bitcoin", "ethereum", "cardano", "solana",
             "polkadot", "dogecoin", "chainlink", "uniswap",
-            "shiba-inu", "polygon"
+            "shiba-inu", "matic-network"
     };
 
+    @Scheduled(cron = "0 */5 * * * *") // every 5 minutes
     public void fetchAndSave() {
-        log.info("Fetching crypto prices in INR from client...");
+        log.info("Fetching crypto prices in INR...");
 
-        Map<String, Map<String, Number>> response = coinGeckoClient.getPricesInInr(coinIds);
+        String ids = String.join(",", coinIds);
+        String url = "https://api.coingecko.com/api/v3/simple/price?ids=" + ids + "&vs_currencies=inr";
+
+        Map<String, Map<String, Number>> response = restTemplate.getForObject(url, Map.class);
 
         if (response != null) {
             for (String coinId : coinIds) {
@@ -61,10 +66,13 @@ public class CoinPriceService implements ICoinPriceService {
                 }
             }
         } else {
-            log.error("Response from CoinGeckoClient is null");
+            log.error("API response from CoinGecko is null");
         }
     }
+
+    @Override
     public List<CoinPrice> getAllCoinPrices() {
         return coinPriceRepository.findAll();
     }
+
 }

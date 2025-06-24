@@ -24,9 +24,6 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authManager;
 
-
-
-    @Scheduled()
     public AuthResponseDTO register(RegisterRequestDTO req) {
         if (userRepo.existsByEmail(req.getEmail())) {
             throw new RuntimeException("Email already registered");
