@@ -36,17 +36,29 @@ public class AuthController {
         return ResponseEntity.ok(message);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody OtpLoginRequestDTO login) {
-        if ("password".equalsIgnoreCase(login.getMethod())) {
-            return ResponseEntity.ok(authService.loginWithPassword(
-                    new LoginRequestDTO(login.getEmail(), login.getPassword())));
-        } else if ("otp".equalsIgnoreCase(login.getMethod())) {
-            return ResponseEntity.ok(authService.loginWithOtp(login.getEmail(), login.getOtp()));
-        } else {
-            throw new IllegalArgumentException("Invalid login method. Use 'password' or 'otp'.");
-        }
+
+//    @PostMapping("/login/password")
+//    public ResponseEntity<String> loginWithPassword(@RequestBody LoginRequestDTO request) {
+//        authService.loginWithPassword(request);  // Auth logic
+//        return ResponseEntity.ok("GREAT! User logged in successfully");
+//    }
+//
+//    @PostMapping("/login/otp")
+//    public ResponseEntity<String> loginWithOtp(@RequestBody OtpLoginRequestDTO request) {
+//        authService.loginWithOtp(request.getEmail(), request.getOtp());  // Auth logic
+//        return ResponseEntity.ok("GREAT! User logged in successfully");
+//    }
+
+    @PostMapping("/login/password")
+    public ResponseEntity<AuthResponseDTO> loginWithPassword(@RequestBody LoginRequestDTO login) {
+        return ResponseEntity.ok(authService.loginWithPassword(login));
     }
+
+    @PostMapping("/login/otp")
+    public ResponseEntity<AuthResponseDTO> loginWithOtp(@RequestBody OtpLoginRequestDTO login) {
+        return ResponseEntity.ok(authService.loginWithOtp(login.getEmail(), login.getOtp()));
+    }
+
     @PostMapping ("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request){
         return ResponseEntity.ok(authService.forgotPassword(request.getEmail()));
