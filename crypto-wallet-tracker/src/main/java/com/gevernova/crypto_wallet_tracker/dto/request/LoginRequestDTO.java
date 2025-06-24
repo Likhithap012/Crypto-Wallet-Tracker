@@ -8,14 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoginRequestDTO {
 
-    @Email(message = "Invalid email")
-    private String email;  // User's email (must be valid)
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
+    private String email;
 
     @NotBlank(message = "Password is required")
-    private String password;  // User's password (not empty)
+    private String password;
 }
