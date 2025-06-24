@@ -19,7 +19,6 @@ public class ReportController {
 
     private final ReportService reportService;
 
-
     @GetMapping("/export")
     public void exportReport(@RequestParam String format,
                              HttpServletResponse response,
