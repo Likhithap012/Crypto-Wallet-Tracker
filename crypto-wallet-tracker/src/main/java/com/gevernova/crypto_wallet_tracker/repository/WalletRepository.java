@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface WalletRepository extends JpaRepository<WalletEntry, Long> {
     List<WalletEntry> findByUser(User user);
+    List<WalletEntry> findByUserEmail(String email);
 }
+
