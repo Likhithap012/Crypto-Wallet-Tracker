@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CoinPriceService implements ICoinPriceService{
+public class CoinPriceService implements CoinPriceServiceInterface {
 
     private final CoinPriceRepository coinPriceRepository;
     private final RestTemplate restTemplate = new RestTemplate();

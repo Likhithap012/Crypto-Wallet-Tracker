@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class WalletService implements IWalletService{
+public class WalletService implements WalletServiceInterface {
 
     private final WalletRepository walletRepository;
     private final WalletEntryMapper mapper;

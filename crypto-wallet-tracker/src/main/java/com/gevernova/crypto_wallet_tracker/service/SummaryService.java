@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SummaryService implements ISummaryService {
+public class SummaryService implements SummaryServiceInterface {
 
     private final WalletRepository walletRepository;
     private final CoinPriceRepository coinPriceRepository;
