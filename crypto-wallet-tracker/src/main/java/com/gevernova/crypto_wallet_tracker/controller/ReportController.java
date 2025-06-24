@@ -19,21 +19,7 @@ public class ReportController {
 
     private final ReportService reportService;
 
-//    @GetMapping("/export")
-//    public void exportReport(@RequestParam String format,
-//                             HttpServletResponse response,
-//                             Authentication authentication) throws IOException {
-//        String email = authentication.getName();
-//        log.info("Exporting report for {} in {} format", email, format);
-//
-//        if ("pdf".equalsIgnoreCase(format)) {
-//            reportService.exportToPdf(email, response);
-//        } else if ("excel".equalsIgnoreCase(format)) {
-//            reportService.exportToExcel(email, response);
-//        } else {
-//            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unsupported format: " + format);
-//        }
-//    }
+
     @GetMapping("/export")
     public void exportReport(@RequestParam String format,
                              HttpServletResponse response,
