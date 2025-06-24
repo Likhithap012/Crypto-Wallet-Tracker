@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -63,5 +65,28 @@ public class GlobalExceptionHandler {
         errorBody.put("error", "Internal Server Error");
         errorBody.put("message", ex.getMessage());
         return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFound(NoHandlerFoundException ex) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", HttpStatus.NOT_FOUND.value());
+        error.put("error", "API endpoint not found");
+        error.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    // Handle invalid input (e.g., wrong path variable type)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", HttpStatus.BAD_REQUEST.value());
+        error.put("error", "Invalid input");
+        error.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

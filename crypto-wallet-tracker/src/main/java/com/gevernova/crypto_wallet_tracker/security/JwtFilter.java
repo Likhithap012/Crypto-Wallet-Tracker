@@ -37,18 +37,33 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             String username = jwtUtil.extractUsername(token);
+            System.out.println("Extracted username: " + username);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                try {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    System.out.println("UserDetails loaded: " + userDetails.getUsername());
 
-                if (jwtUtil.validateToken(token, userDetails)) {
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    if (jwtUtil.validateToken(token, userDetails)) {
+                        System.out.println("Token validated successfully");
+
+                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    } else {
+                        System.out.println("Invalid token");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
+        } else {
+            System.out.println("No Bearer token in Authorization header");
         }
 
+        System.out.println("Auth at end of filter: " + SecurityContextHolder.getContext().getAuthentication());
         filterChain.doFilter(request, response);
     }
+
 }

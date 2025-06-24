@@ -2,8 +2,6 @@ package com.gevernova.crypto_wallet_tracker.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.gevernova.crypto_wallet_tracker.entity.User;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -11,25 +9,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class PriceAlert {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // Unique alert ID
+    private Long id;
 
+    private String email;
+    private String coin;
+    private double targetPrice;
+    @Column(name = "alert_condition")
+    private String condition;
+    private boolean triggered;
     @ManyToOne
-    private User user;  // Alert belongs to a specific user
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(nullable = false)
-    private String coinSymbol;  // Coin symbol (e.g., BTC, ETH)
-
-    @Column(nullable = false)
-    private Double targetPrice;  // Price to watch for
-
-    @Column(nullable = false)
-    private boolean isGreaterThan;  // true = alert if price > target
-
-    private boolean triggered = false;  // Mark if alert condition is met
-
-    private LocalDateTime createdAt = LocalDateTime.now();  // Alert creation time
 }
-
