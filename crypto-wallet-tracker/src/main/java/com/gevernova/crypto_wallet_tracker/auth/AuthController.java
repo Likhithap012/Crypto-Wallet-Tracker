@@ -2,6 +2,7 @@ package com.gevernova.crypto_wallet_tracker.auth;
 
 import com.gevernova.crypto_wallet_tracker.dto.request.*;
 import com.gevernova.crypto_wallet_tracker.dto.response.AuthResponseDTO;
+import com.gevernova.crypto_wallet_tracker.dto.response.LoginResponseDTO;
 import com.gevernova.crypto_wallet_tracker.dto.response.OtpLoginResponseDTO;
 import com.gevernova.crypto_wallet_tracker.dto.response.ResetPasswordResponseDTO;
 import com.gevernova.crypto_wallet_tracker.service.AuthService;
@@ -36,7 +37,6 @@ public class AuthController {
         return ResponseEntity.ok(message);
     }
 
-
 //    @PostMapping("/login/password")
 //    public ResponseEntity<String> loginWithPassword(@RequestBody LoginRequestDTO request) {
 //        authService.loginWithPassword(request);  // Auth logic
@@ -59,6 +59,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.loginWithOtp(login.getEmail(), login.getOtp()));
     }
 
+
     @PostMapping ("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request){
         return ResponseEntity.ok(authService.forgotPassword(request.getEmail()));
@@ -77,6 +78,6 @@ public class AuthController {
     @GetMapping("/reset-password-form")
     public String showResetPasswordForm(@RequestParam String token, Model model) {
         model.addAttribute("token", token);
-        return "reset-password"; // DO NOT return literal HTML content
+        return "reset-password";
     }
 }

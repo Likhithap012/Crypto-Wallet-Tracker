@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements AuthServiceInterface {
 
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
