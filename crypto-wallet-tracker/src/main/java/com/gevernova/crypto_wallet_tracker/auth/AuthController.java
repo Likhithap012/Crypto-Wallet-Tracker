@@ -49,10 +49,11 @@ public class AuthController {
 //        return ResponseEntity.ok("GREAT! User logged in successfully");
 //    }
 
-    @PostMapping("/login/password")
-    public ResponseEntity<AuthResponseDTO> loginWithPassword(@RequestBody LoginRequestDTO login) {
-        return ResponseEntity.ok(authService.loginWithPassword(login));
-    }
+@PostMapping("/login/password")
+public ResponseEntity<AuthResponseDTO> loginWithPassword(@RequestBody LoginRequestDTO login) {
+    return ResponseEntity.ok(authService.loginWithPassword(login));
+}
+
 
     @PostMapping("/login/otp")
     public ResponseEntity<AuthResponseDTO> loginWithOtp(@RequestBody OtpLoginRequestDTO login) {

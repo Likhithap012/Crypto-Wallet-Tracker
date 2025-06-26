@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,6 @@ public class AlertService implements AlertServiceInterface {
     private final CoinPriceRepository coinPriceRepo;
     private final AlertMapper alertMapper;
     private final AlertEmailService emailService;
-
 
     @Override
     public AlertResponseDTO createAlert(AlertRequestDTO dto, String email) {
@@ -51,14 +51,21 @@ public class AlertService implements AlertServiceInterface {
             double targetPrice = alert.getTargetPrice();
             String condition = alert.getCondition();
 
+            if (condition == null || condition.isBlank()) {
+                log.warn("Skipping alert id={} due to null/blank condition", alert.getId());
+                continue;
+            }
+
+            log.info("Looking up price for coin '{}'", coin);
+
             double marketPrice = coinPriceRepo.findByCoinSymbol(coin)
                     .map(p -> p.getCurrentPrice())
                     .orElse(0.0);
 
             log.info("Evaluating alert for {}: condition={}, target={}, market={}", coin, condition, targetPrice, marketPrice);
 
-            boolean conditionMet = (condition.equalsIgnoreCase("ABOVE") && marketPrice >= targetPrice)
-                    || (condition.equalsIgnoreCase("BELOW") && marketPrice <= targetPrice);
+            boolean conditionMet = ("ABOVE".equalsIgnoreCase(condition) && marketPrice >= targetPrice)
+                    || ("BELOW".equalsIgnoreCase(condition) && marketPrice <= targetPrice);
 
             if (conditionMet) {
                 alert.setTriggered(true);
@@ -72,6 +79,5 @@ public class AlertService implements AlertServiceInterface {
         }
 
         log.info("Alert evaluation completed.");
-
     }
 }
