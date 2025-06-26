@@ -11,6 +11,7 @@ import com.gevernova.crypto_wallet_tracker.util.jms.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -113,6 +114,7 @@ public class AuthService implements AuthServiceInterface {
         if (!user.isVerified()) {
             throw new RuntimeException("Please verify your email first.");
         }
+
 
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
