@@ -29,6 +29,7 @@ public class ReportController {
             response.setHeader("Content-Disposition", "attachment; filename=report.xlsx");
 
             reportService.generateExcelReport(response.getOutputStream(), email);
+            response.flushBuffer();
         } else if (format.equalsIgnoreCase("pdf")) {
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=report.pdf");
