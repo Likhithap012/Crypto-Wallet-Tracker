@@ -4,15 +4,14 @@ package com.gevernova.crypto_wallet_tracker.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
+@Builder
 public class LoginRequestDTO {
 
     @Email(message = "Invalid email format")

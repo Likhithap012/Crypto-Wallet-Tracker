@@ -2,9 +2,11 @@ package com.gevernova.crypto_wallet_tracker.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class RegisterRequestDTO {
 
     @NotBlank(message = "Name is required")

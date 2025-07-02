@@ -12,4 +12,5 @@ public class AlertResponseDTO {
     private double targetPrice;
     private String condition;
     private boolean triggered;
+
 }
